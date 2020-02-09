@@ -10,7 +10,7 @@ const routes = [
 		name: "home",
 		component: pageHome,
 		meta: {
-			title: "Vue Preset"
+			title: "Plan"
 		}
 	},
 	
@@ -25,7 +25,7 @@ const router = new VueRouter({
 
 // @ts-ignore
 router.beforeEach((to: Route, from: Route, next) => {
-	document.title = to.meta.title;
+	//document.title = to.meta.title;
 	next();
 });
 export default router;
