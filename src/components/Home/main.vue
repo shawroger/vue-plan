@@ -16,7 +16,7 @@
 							<mu-tab>添加项目</mu-tab>
 						</mu-tabs>
 						<div class="data-list" v-if="currentTab === 0">
-							<mu-data-table stripe :data="collections" :columns="columns">
+							<mu-data-table stripe :data="sortedColl" :columns="columns">
 								<template slot="expand" slot-scope="prop">
 									<div class="item-content">
 										<div class="content-render">{{ prop.row.content }}</div>
@@ -97,6 +97,7 @@ import {
 	ref,
 	reactive,
 	watch,
+	computed,
 	onBeforeUnmount
 } from "@vue/composition-api";
 import { genFile, Upload } from "@/services/filexon";
@@ -121,6 +122,12 @@ export default createComponent({
 			{ title: "截止日期", align: "center", name: "date" },
 			{ title: "状态", align: "center", name: "status" }
 		];
+
+		const sortedColl = computed(() =>
+			collections.value.sort(
+				(a: any, b: any) => checkDate(a.date) - checkDate(b.date)
+			)
+		);
 
 		function clearItem() {
 			form.date = form.title = form.content = "";
@@ -191,7 +198,7 @@ export default createComponent({
 		}
 
 		function downloadFile() {
-			genFile(JSON.stringify(collections.value));
+			genFile(JSON.stringify(sortedColl.value));
 		}
 
 		function uploadFile() {
@@ -206,7 +213,7 @@ export default createComponent({
 		const watchStorage = watch([() => collections.value], () => {
 			window.localStorage.setItem(
 				"plan-store",
-				JSON.stringify(collections.value)
+				JSON.stringify(sortedColl.value)
 			);
 		});
 
@@ -214,11 +221,12 @@ export default createComponent({
 			watchStorage();
 			window.localStorage.setItem(
 				"plan-store",
-				JSON.stringify(collections.value)
+				JSON.stringify(sortedColl.value)
 			);
 		});
 		return {
 			addItem,
+
 			columns,
 			clearItem,
 			currentTab,
@@ -228,6 +236,7 @@ export default createComponent({
 			form,
 			checkDate,
 			setStatus,
+			sortedColl,
 			downloadFile,
 			uploadFile
 		};
