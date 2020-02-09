@@ -1,2 +1,2 @@
-export const title = "Vue Preset";
+export const title = "PLAN";
 

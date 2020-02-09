@@ -7,8 +7,7 @@ import "@/assets/global.less";
 
 import "./plugins/composition-api";
 import "./plugins/vue-clipboard2";
-import "./plugins/element-ui";
-import "./plugins/axios";
+import "./plugins/muse-ui";
 
 import "./plugins/directives";
 import "./plugins/filters";
