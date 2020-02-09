@@ -195,6 +195,10 @@ export default createComponent({
 
 		function doneItem(index: number) {
 			collections.value[index]["done"] = true;
+			window.localStorage.setItem(
+				"plan-store",
+				JSON.stringify(sortedColl.value)
+			);
 		}
 
 		function downloadFile() {
